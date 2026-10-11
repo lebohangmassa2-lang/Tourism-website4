@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact and Booking | Visit Lesotho</title>
+    <meta
+      name="description"
+      content="Book your Lesotho trip, send a question or join the traveller club."
+    />
+    <script>
+      document.documentElement.setAttribute(
+        "data-bs-theme",
+        localStorage.getItem("lt-theme") || "light",
+      );
+    </script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800&family=Public+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        brand: #12286b;
+        green: #0a7c4a;
+        straw: #e3a72f;
+        red: #b3262e;
+        ink: #1d2433;
+        bg: #f4f7fb;
+        card: #fff;
+        muted: #566075;
+        line: #dde3ee;
+      }
+      [data-bs-theme="dark"] {
+        brand: #a9bcff;
+        ink: #e8ecf5;
+        bg: #0e1322;
+        card: #182038;
+        muted: #a6b0c8;
+        line: #2b3556;
+      }
+      body {
+        font-family: "Public Sans", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.65;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 800;
+        color: var(--brand);
+        line-height: 1.15;
+      }
+      .muted {
+        color: var(muted);
+      }
+      .skip-link {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        background: var(straw);
+        color: #000;
+        padding: 0.5rem 1rem;
+        z-index: 2000;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+      :focus-visible {
+        outline: 3px solid var(straw);
+        outline-offset: 2px;
+      }
+      .site-header .navbar {
+        background: #12286b;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      }
+      .navbar-brand {
+        font-family: "Fraunces", serif;
+        font-weight: 800;
+        color: #fff !important;
+      }
+      .navbar-brand span {
+        color: var(straw);
+      }
+      .navbar .nav-link {
+        color: #e6ebff;
+        position: relative;
+        transition: color 0.2s;
+      }
+      .navbar .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 2px;
+        height: 2px;
+        background: var(straw);
+        transform: scaleX(0);
+        transition: transform 0.25s;
+      }
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        color: #fff;
+      }
+      .navbar .nav-link:hover::after,
+      .navbar .nav-link.active::after {
+        transform: scaleX(1);
+      }
+      .blanket {
+        height: 12px;
+        background: repeating-linear-gradient(
+          90deg,
+          #12286b 0 48px,
+          #e3a72f 48px 60px,
+          #0a7c4a 60px 108px,
+          #b3262e 108px 118px
+        );
+      }
+      .btn-straw {
+        background: var(straw);
+        color: #1d2433;
+        font-weight: 600;
+        border: 0;
+        border-radius: 4px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background 0.2s;
+      }
+      .btn-straw:hover {
+        background: #f0b63f;
+        color: #1d2433;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      }
+      .btn-brand {
+        background: #12286b;
+        color: #fff;
+        border: 0;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .btn-brand:hover {
+        background: #1d3c8f;
+        color: #fff;
+      }
+      .card {
+        background: var(card);
+        color: var(ink);
+        border: 1px solid var(line);
+        border-radius: 6px;
+        overflow: hidden;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(10, 20, 60, 0.18);
+      }
+      .card img {
+        aspect-ratio: 16/10;
+        object-fit: cover;
+      }
+      .page-title {
+        padding: 3.5rem 0 2.25rem;
+        color: #fff;
+      }
+      .page-title h1 {
+        color: #fff;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+      }
+      section {
+        padding: 3rem 0;
+      }
+      .table {
+        bs-table-bg: var(card);
+        bs-table-color: var(ink);
+      }
+      .site-footer {
+        background: #0c1a47;
+        color: #d4dcf7;
+      }
+      .site-footer a {
+        color: #f3c75b;
+      }
+      .site-footer address {
+        font-style: normal;
+      }
+      #toTop {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      @media (prefers-reduced-motion: reduce) {
+       {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+      .page-title {
+        background: linear-gradient(135deg, #12286b, #b3262e 160%);
+      }
+      .panel {
+        background: var(card);
+        border: 1px solid var(line);
+        border-top: 6px solid var(green);
+        border-radius: 6px;
+        padding: 1.5rem;
+      }
+      .estimate {
+        background: rgba(227, 167, 47, 0.18);
+        border-left: 6px solid var(--straw);
+        padding: 0.9rem 1rem;
+        font-size: 1.15rem;
+      }
+      .estimate strong {
+        font-family: "Fraunces", serif;
+        color: var(brand);
+        font-size: 1.6rem;
+      }
+      .modal-content {
+        background: var(card);
+        color: var(ink);
+      }
+      #bkTable td,
+      #bkTable th {
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">Visit <span>Lesotho</span></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu"
+            aria-controls="menu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="destinations.html">Destinations</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="accommodation.html">Accommodation</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="activities.html">Activities</a></li>
+              <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+              <li class="nav-item">
+                <a class="nav-link active" href="contact.html" aria-current="page">Contact</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  >Explore by type</a
+                >
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="destinations.html?cat=Nature">Nature</a></li>
+                  <li>
+                    <a class="dropdown-item" href="destinations.html?cat=Heritage">Heritage</a>
+                  </li>
+                  <li><a class="dropdown-item" href="destinations.html?cat=Culture">Culture</a></li>
+                  <li>
+                    <a class="dropdown-item" href="destinations.html?cat=Adventure">Adventure</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <span id="navUser" class="badge text-bg-warning ms-lg-2 d-none"></span>
+              </li>
+              <li class="nav-item">
+                <button
+                  id="themeBtn"
+                  class="btn btn-sm btn-outline-light ms-lg-3 my-2 my-lg-0"
+                  type="button"
+                  aria-pressed="false"
+                >
+                  Dark
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="page-title">
+        <div class="container">
+          <h1>Book and contact</h1>
+          <p class="lead mb-0">Tell us where you want to go and see an instant cost estimate.</p>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <div id="planAlert"></div>
+          <div class="row g-5">
+            <div class="col-lg-7">
+              <form data-form="booking" class="panel mb-5" novalidate>
+                <h2 class="h4">Booking form</h2>
+                <div class="result" role="status"></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="b-name">Full name</label
+                      ><input
+                        class="form-control"
+                        id="b-name"
+                        name="name"
+                        type="text"
+                        required
+                        minlength="3"
+                        autocomplete="name"
+                      />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="b-email">Email</label
+                      ><input
+                        class="form-control"
+                        id="b-email"
+                        name="email"
+                        type="email"
+                        required
+                        autocomplete="email"
+                      />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="b-phone">Phone</label
+                      ><input
+                        class="form-control"
+                        id="b-phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        placeholder="+266 5000 0000"
+                        autocomplete="tel"
+                      />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="b-date">Arrival date</label
+                      ><input class="form-control" id="b-date" name="date" type="date" required />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="b-dest">Main destination</label
+                    ><select id="b-dest" name="dest" class="form-select" required>
+                      <option value="" data-cost="0">Choose one</option>
+                      <option value="maletsunyane" data-cost="200">Maletsunyane Falls</option>
+                      <option value="thaba-bosiu" data-cost="100">Thaba-Bosiu</option>
+                      <option value="sani-pass" data-cost="600">Sani Pass</option>
+                      <option value="katse-dam" data-cost="150">Katse Dam</option>
+                      <option value="afriski" data-cost="500">Afriski Mountain Resort</option>
+                      <option value="tsehlanyane" data-cost="100">
+                        Ts'ehlanyane National Park
+                      </option>
+                      <option value="sehlabathebe" data-cost="150">
+                        Sehlabathebe National Park
+                      </option>
+                      <option value="bokong" data-cost="80">Bokong Nature Reserve</option>
+                      <option value="liphofung" data-cost="60">Liphofung Cave</option>
+                      <option value="malealea" data-cost="50">Malealea</option>
+                      <option value="morija" data-cost="80">Morija Museum and Archives</option>
+                      <option value="ha-kome" data-cost="50">Ha Kome Cave Dwellings</option>
+                      <option value="ha-baroana" data-cost="60">Ha Baroana Rock Art</option>
+                      <option value="qiloane" data-cost="50">Qiloane Falls</option>
+                      <option value="thabana-ntlenyana" data-cost="400">Thabana Ntlenyana</option>
+                      <option value="maseru" data-cost="0">Maseru and the Basotho Hat</option>
+                      <option value="mohale-dam" data-cost="50">Mohale Dam</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="b-stay">Accommodation</label
+                    ><select id="b-stay" name="stay" class="form-select" required>
+                      <option value="" data-rate="0">Choose one</option>
+                      <option data-rate="300" value="Camping">Camping (M300 per room)</option>
+                      <option data-rate="600" value="Guesthouse">Guesthouse (M600)</option>
+                      <option data-rate="1100" value="Lodge">Lodge (M1,100)</option>
+                      <option data-rate="1800" value="Hotel">Hotel (M1,800)</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="b-guests">Guests</label
+                      ><input
+                        class="form-control"
+                        id="b-guests"
+                        name="guests"
+                        type="number"
+                        required
+                        min="1"
+                        max="20"
+                        value="2"
+                      />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label" for="b-nights">Nights</label
+                      ><input
+                        class="form-control"
+                        id="b-nights"
+                        name="nights"
+                        type="number"
+                        required
+                        min="1"
+                        max="30"
+                        value="3"
+                      />
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                </div>
+                <fieldset class="mb-3">
+                  <legend class="fs-6">Transport</legend>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="transport"
+                      id="t1"
+                      value="Own car"
+                      checked
+                    /><label class="form-check-label" for="t1">Own car</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="transport"
+                      id="t2"
+                      value="Guided 4x4"
+                    /><label class="form-check-label" for="t2">Guided 4x4</label>
+                  </div>
+                </fieldset>
+                <div class="mb-3">
+                  <label class="form-label" for="b-notes">Additional information</label
+                  ><textarea id="b-notes" name="notes" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="estimate">
+                  Estimated cost: <strong id="estimate">M0</strong
+                  ><span class="muted small d-block"
+                    >Entry fees per person plus room rate for the nights.</span
+                  >
+                </div>
+                <button class="btn btn-straw mt-3" type="submit">Book my trip</button>
+              </form>
+              <form data-form="contact" class="panel" novalidate>
+                <h2 class="h4">Send us a message</h2>
+                <div class="result" role="status"></div>
+                <div class="mb-3">
+                  <label class="form-label" for="c-name">Name</label
+                  ><input
+                    class="form-control"
+                    id="c-name"
+                    name="name"
+                    type="text"
+                    required
+                    minlength="3"
+                  />
+                  <div class="invalid-feedback"></div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="c-email">Email</label
+                  ><input class="form-control" id="c-email" name="email" type="email" required />
+                  <div class="invalid-feedback"></div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="c-subject">Subject</label
+                  ><input
+                    class="form-control"
+                    id="c-subject"
+                    name="subject"
+                    type="text"
+                    required
+                    minlength="4"
+                  />
+                  <div class="invalid-feedback"></div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="c-message">Message</label
+                  ><textarea
+                    id="c-message"
+                    name="message"
+                    class="form-control"
+                    rows="4"
+                    required
+                    minlength="15"
+                  ></textarea>
+                  <div class="invalid-feedback"></div>
+                </div>
+                <button class="btn btn-brand" type="submit">Send message</button>
+              </form>
+            </div>
+            <aside class="col-lg-5" aria-label="Contact details">
+              <div class="panel mb-4">
+                <h2 class="h5">Tourism Information Office</h2>
+                <address>
+                  Kingsway Road, Maseru 100<br />Phone: <a href="tel:+26622000000">+266 2200 0000</a
+                  ><br />Email:
+                </address>
+                <ul>
+                  <li>Mon - Fri: 08:00 - 17:00</li>
+                  <li>Sat: 09:00 - 13:00</li>
+                </ul>
+                <button
+                  class="btn btn-outline-secondary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#joinModal"
+                  type="button"
+                >
+                  Join the traveller club
+                </button>
+              </div>
+              <div class="panel">
+                <h2 class="h5">Your saved bookings</h2>
+                <div class="table-responsive">
+                  <table class="table table-sm" id="bkTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Trip</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col"><span class="visually-hidden">Remove</span></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <p id="bkEmpty" class="muted">No bookings yet. They are saved in this browser.</p>
+                <button id="bkClear" class="btn btn-sm btn-outline-danger" type="button">
+                  Clear all
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+      <div
+        class="modal fade"
+        id="joinModal"
+        tabindex="-1"
+        aria-labelledby="joinT"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <form data-form="join" class="modal-content" novalidate>
+            <div class="modal-header">
+              <h2 class="modal-title h5" id="joinT">Join the traveller club</h2>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="result" role="status"></div>
+              <div class="mb-3">
+                <label class="form-label" for="j-name">Full name</label
+                ><input
+                  class="form-control"
+                  id="j-name"
+                  name="name"
+                  type="text"
+                  required
+                  minlength="3"
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="j-email">Email</label
+                ><input class="form-control" id="j-email" name="email" type="email" required />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="j-phone">Phone</label
+                ><input class="form-control" id="j-phone" name="phone" type="tel" required />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="j-gender">Gender</label
+                ><select id="j-gender" name="gender" class="form-select" required>
+                  <option value="">Choose one</option>
+                  <option>Female</option>
+                  <option>Male</option>
+                  <option>Prefer not to say</option>
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="j-password">Password</label
+                ><input
+                  class="form-control"
+                  id="j-password"
+                  name="password"
+                  type="password"
+                  required
+                  minlength="8"
+                  data-strong
+                />
+                <div class="form-text">At least 8 characters and one number.</div>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="j-confirm">Confirm password</label
+                ><input
+                  class="form-control"
+                  id="j-confirm"
+                  name="confirm"
+                  type="password"
+                  required
+                  data-match="#j-password"
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="j-terms"
+                  name="terms"
+                  required
+                /><label class="form-check-label" for="j-terms"
+                  >I agree to receive travel updates</label
+                >
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-straw" type="submit">Create account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="blanket"></div>
+      <div class="container py-5">
+        <div class="row g-4">
+          <div class="col-md-5">
+            <h2 class="h4 text-white">Visit Lesotho</h2>
+            <p>
+              The Kingdom in the Sky. Plan your trip to the only country in the world entirely above
+              1,000 m.
+            </p>
+          </div>
+          <div class="col-6 col-md-3">
+            <h3 class="h6 text-white">Pages</h3>
+            <ul class="list-unstyled">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="destinations.html">Destinations</a></li>
+              <li><a href="accommodation.html">Accommodation</a></li>
+              <li><a href="activities.html">Activities</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-4">
+            <h3 class="h6 text-white">Contact</h3>
+            <address class="mb-0">
+              Tourism Information Office<br />Kingsway Road, Maseru 100<br /><a>
+            </address>
+          </div>
+        </div>
+      <div>
+        <p class="small mt-4 mb-0">
+          &copy; <span id="year"></span> Visit Lesotho.</p>
+      </div>
+    </footer>
+    <button id="toTop" class="btn btn-straw" type="button" aria-label="Back to top" hidden>
+      Top
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      (() => {
+        const root = document.documentElement,
+          btn = document.getElementById("themeBtn");
+        const paint = (t) => {
+          root.setAttribute("data-bs-theme", t);
+          btn.textContent = t === "dark" ? "Light" : "Dark";
+          btn.setAttribute("aria-pressed", t === "dark");
+        };
+        paint(localStorage.getItem("lt-theme") || "light");
+        btn.addEventListener("click", () => {
+          const t = root.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+          localStorage.setItem("lt-theme", t);
+          paint(t);
+        });
+        document.getElementById("year").textContent = new Date().getFullYear();
+        // close the mobile menu after choosing a link
+        document.querySelectorAll(".navbar .nav-link:not(.dropdown-toggle)").forEach((a) =>
+          a.addEventListener("click", () => {
+            const m = document.getElementById("menu");
+            if (m.classList.contains("show")) bootstrap.Collapse.getOrCreateInstance(m).hide();
+          }),
+        );
+        const top = document.getElementById("toTop");
+        addEventListener("scroll", () => (top.hidden = scrollY < 500));
+        top.onclick = () => scrollTo({ top: 0, behavior: "smooth" });
+        const u = localStorage.getItem("lt-user"),
+          b = document.getElementById("navUser");
+        if (u) {
+          b.textContent = "Hi, " + u;
+          b.classList.remove("d-none");
+        }
+      })();
+    </script>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      function problem(el) {
+        const v = el.value.trim();
+        if (el.type === "checkbox")
+          return el.required && !el.checked ? "Please tick this box to continue." : "";
+        if (el.required && !v) return "This field is required.";
+        if (!v) return "";
+        if (el.type === "email" && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v))
+          return "Enter a valid email, like name@example.com.";
+        if (el.type === "tel" && !/^\+?[0-9 ]{8,15}$/.test(v))
+          return "Enter 8 to 15 digits. You may start with +.";
+        if (el.minLength > 0 && v.length < el.minLength)
+          return `Use at least ${el.minLength} characters.`;
+        if (el.dataset.strong !== undefined && !/\d/.test(v)) return "Include at least one number.";
+        if (el.dataset.match && v !== $(el.dataset.match).value) return "Passwords do not match.";
+        if (el.type === "date" && v < new Date().toISOString().slice(0, 10))
+          return "Choose today or a future date.";
+        if (el.type === "number" && (+v < +el.min || +v > +el.max))
+          return `Enter a number from ${el.min} to ${el.max}.`;
+        return "";
+      }
+      function check(el) {
+        const m = problem(el),
+          fb = el.closest(".mb-3,.form-check")?.querySelector(".invalid-feedback");
+        if (fb) fb.textContent = m;
+        el.classList.toggle("is-invalid", !!m);
+        el.classList.toggle("is-valid", !m && (el.type === "checkbox" ? el.checked : !!el.value));
+        return !m;
+      }
+      const validate = (f) =>
+        [...f.querySelectorAll("input:not([type=radio]),select,textarea")]
+          .map(check)
+          .every(Boolean);
+      const bk = () => JSON.parse(localStorage.getItem("lt-bookings") || "[]");
+      function drawBookings() {
+        const b = bk();
+        $("#bkTable tbody").innerHTML = b
+          .map(
+            (x) =>
+              `<tr><td>${x.name}</td><td>${x.dest}, ${x.nights} nights</td><td>M${x.total.toLocaleString()}</td><td><button class="btn-close" data-del="${x.id}" aria-label="Remove booking for ${x.name}"></button></td></tr>`,
+          )
+          .join("");
+        $("#bkEmpty").hidden = b.length > 0;
+        $("#bkTable").hidden = !b.length;
+        $("#bkClear").hidden = !b.length;
+      }
+      const bf = document.querySelector("[data-form=booking]");
+      function estimate() {
+        const e = bf.elements,
+          g = +e.guests.value || 0,
+          n = +e.nights.value || 0,
+          d = e.dest.selectedOptions[0],
+          s = e.stay.selectedOptions[0];
+        const t = g * (+d.dataset.cost || 0) + Math.ceil(g / 2) * n * (+s.dataset.rate || 0);
+        $("#estimate").textContent = "M" + t.toLocaleString();
+        return t;
+      }
+      bf.addEventListener("input", estimate);
+      document.addEventListener("click", (e) => {
+        if (e.target.dataset.del) {
+          localStorage.setItem(
+            "lt-bookings",
+            JSON.stringify(bk().filter((x) => x.id != e.target.dataset.del)),
+          );
+          drawBookings();
+        }
+      });
+      $("#bkClear").onclick = () => {
+        localStorage.removeItem("lt-bookings");
+        drawBookings();
+      };
+      document.querySelectorAll("form[data-form]").forEach((f) => {
+        f.addEventListener("focusout", (e) => {
+          if (e.target.matches("input,select,textarea")) check(e.target);
+        });
+        f.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const res = f.querySelector(".result");
+          if (!validate(f)) {
+            res.innerHTML =
+              '<div class="alert alert-danger" role="alert">Please fix the highlighted fields.</div>';
+            f.querySelector(".is-invalid").focus();
+            return;
+          }
+          const d = Object.fromEntries(new FormData(f));
+          localStorage.setItem("lt-user", d.name.split(" ")[0]);
+          let msg = "Thank you! We will reply within two working days.";
+          if (f.dataset.form === "booking") {
+            const t = estimate(),
+              o = f.elements.dest.selectedOptions[0].textContent;
+            localStorage.setItem(
+              "lt-bookings",
+              JSON.stringify([
+                ...bk(),
+                { id: Date.now(), name: d.name, dest: o, nights: d.nights, total: t },
+              ]),
+            );
+            msg = `Booking received for ${o}. Estimated cost M${t.toLocaleString()}.`;
+            drawBookings();
+          }
+          if (f.dataset.form === "join")
+            msg = `Welcome to the club, ${d.name.split(" ")[0]}! Your account is ready.`;
+          res.innerHTML = `<div class="alert alert-success alert-dismissible" role="status">${msg}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`;
+          f.reset();
+          f.querySelectorAll(".is-valid,.is-invalid").forEach((x) =>
+            x.classList.remove("is-valid", "is-invalid"),
+          );
+          estimate();
+          $("#navUser").textContent = "Hi, " + d.name.split(" ")[0];
+          $("#navUser").classList.remove("d-none");
+        });
+      });
+      bf.elements.date.min = new Date().toISOString().slice(0, 10);
+      const plan = JSON.parse(localStorage.getItem("lt-plan") || "null");
+      if (plan) {
+        $("#planAlert").innerHTML =
+          `<div class="alert alert-info alert-dismissible">Your saved activity plan: ${plan.names.join(", ")} for ${plan.n} people (M${plan.total.toLocaleString()}).<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`;
+        bf.elements.notes.value = "Activities: " + plan.names.join(", ");
+      }
+      drawBookings();
+      estimate();
+    </script>
+  </body>
+</html>

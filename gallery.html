@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gallery | Visit Lesotho</title>
+    <meta
+      name="description"
+      content="Photo gallery of the best-known places in Lesotho with a lightbox viewer."
+    />
+    <script>
+      document.documentElement.setAttribute(
+        "data-bs-theme",
+        localStorage.getItem("lt-theme") || "light",
+      );
+    </script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800&family=Public+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        brand: #12286b;
+        green: #0a7c4a;
+        straw: #e3a72f;
+        red: #b3262e;
+        ink: #1d2433;
+        bg: #f4f7fb;
+        card: #fff;
+        muted: #566075;
+        line: #dde3ee;
+      }
+      [data-bs-theme="dark"] {
+        brand: #a9bcff;
+        ink: #e8ecf5;
+        bg: #0e1322;
+        card: #182038;
+        muted: #a6b0c8;
+        line: #2b3556;
+      }
+      body {
+        font-family: "Public Sans", system-ui, sans-serif;
+        background: var(bg);
+        color: var(ink);
+        line-height: 1.65;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 800;
+        color: var(brand);
+        line-height: 1.15;
+      }
+      .muted {
+        color: var(muted);
+      }
+      .skip-link {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        background: var(straw);
+        color: #000;
+        padding: 0.5rem 1rem;
+        z-index: 2000;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+      :focus-visible {
+        outline: 3px solid var(straw);
+        outline-offset: 2px;
+      }
+      .site-header .navbar {
+        background: #12286b;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      }
+      .navbar-brand {
+        font-family: "Fraunces", serif;
+        font-weight: 800;
+        color: #fff !important;
+      }
+      .navbar-brand span {
+        color: var(straw);
+      }
+      .navbar .nav-link {
+        color: #e6ebff;
+        position: relative;
+        transition: color 0.2s;
+      }
+      .navbar .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 2px;
+        height: 2px;
+        background: var(straw);
+        transform: scaleX(0);
+        transition: transform 0.25s;
+      }
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        color: #fff;
+      }
+      .navbar .nav-link:hover::after,
+      .navbar .nav-link.active::after {
+        transform: scaleX(1);
+      }
+      .blanket {
+        height: 12px;
+        background: repeating-linear-gradient(
+          90deg,
+          #12286b 0 48px,
+          #e3a72f 48px 60px,
+          #0a7c4a 60px 108px,
+          #b3262e 108px 118px
+        );
+      }
+      .btn-straw {
+        background: var(straw);
+        color: #1d2433;
+        font-weight: 600;
+        border: 0;
+        border-radius: 4px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background 0.2s;
+      }
+      .btn-straw:hover {
+        background: #f0b63f;
+        color: #1d2433;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      }
+      .btn-brand {
+        background: #12286b;
+        color: #fff;
+        border: 0;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .btn-brand:hover {
+        background: #1d3c8f;
+        color: #fff;
+      }
+      .card {
+        background: var(card);
+        color: var(ink);
+        border: 1px solid var(line);
+        border-radius: 6px;
+        overflow: hidden;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(10, 20, 60, 0.18);
+      }
+      .card img {
+        aspect-ratio: 16/10;
+        object-fit: cover;
+      }
+      .page-title {
+        padding: 3.5rem 0 2.25rem;
+        color: #fff;
+      }
+      .page-title h1 {
+        color: #fff;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+      }
+      section {
+        padding: 3rem 0;
+      }
+      .table {
+        bs-table-bg: var(card);
+        bs-table-color: var(ink);
+      }
+      .site-footer {
+        background: #0c1a47;
+        color: #d4dcf7;
+      }
+      .site-footer a {
+        color: #f3c75b;
+      }
+      .site-footer address {
+        font-style: normal;
+      }
+      #toTop {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+      .page-title {
+        background: linear-gradient(135deg, #1d3c8f, #0a7c4a);
+      }
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        grid-auto-rows: 240px;
+        gap: 1rem;
+        grid-auto-flow: dense;
+      }
+      .g-item {
+        margin: 0;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        border-radius: 6px;
+        background: var(card);
+      }
+      .g-item.wide {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      @media (max-width: 520px) {
+        .g-item.wide {
+          grid-column: span 1;
+          grid-row: span 1;
+        }
+      }
+      .g-btn {
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+      }
+      .g-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+      }
+      .g-item:hover img {
+        transform: scale(1.07);
+      }
+      .g-item figcaption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 1.5rem 0.9rem 0.6rem;
+        color: #fff;
+        font-weight: 600;
+        background: linear-gradient(transparent, rgba(8, 16, 48, 0.88));
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- Header and navigation -->
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">Visit <span>Lesotho</span></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu"
+            aria-controls="menu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="destinations.html">Destinations</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="accommodation.html">Accommodation</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="activities.html">Activities</a></li>
+              <li class="nav-item">
+                <a class="nav-link active" href="gallery.html" aria-current="page">Gallery</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  >Explore by type</a
+                >
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="destinations.html?cat=Nature">Nature</a></li>
+                  <li>
+                    <a class="dropdown-item" href="destinations.html?cat=Heritage">Heritage</a>
+                  </li>
+                  <li><a class="dropdown-item" href="destinations.html?cat=Culture">Culture</a></li>
+                  <li>
+                    <a class="dropdown-item" href="destinations.html?cat=Adventure">Adventure</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <span id="navUser" class="badge text-bg-warning ms-lg-2 d-none"></span>
+              </li>
+              <li class="nav-item">
+                <button
+                  id="themeBtn"
+                  class="btn btn-sm btn-outline-light ms-lg-3 my-2 my-lg-0"
+                  type="button"
+                  aria-pressed="false"
+                >
+                  Dark
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+       <main id="main">
+      <section class="page-title">
+        <div class="container">
+          <h1>Photo gallery</h1>
+          <p class="lead mb-0">
+            Click any picture to open the viewer. Use the arrow keys to move through them.
+          </p>
+        </div>
+      </section>
+      <section>
+        <div class="container">
+          <div
+            class="d-flex flex-wrap gap-2 mb-4"
+            id="gFilter"
+            role="group"
+            aria-label="Filter photos"
+          >
+            <button class="btn btn-brand active" data-cat="All" type="button">All</button
+            ><button class="btn btn-outline-secondary" data-cat="Nature" type="button">
+              Nature</button
+            ><button class="btn btn-outline-secondary" data-cat="Heritage" type="button">
+              Heritage</button
+            ><button class="btn btn-outline-secondary" data-cat="Culture" type="button">
+              Culture</button
+            ><button class="btn btn-outline-secondary" data-cat="Adventure" type="button">
+              Adventure
+            </button>
+          </div>
+          <div class="gallery">
+            <figure class="g-item wide" data-cat="Nature">
+              <button type="button" class="g-btn" aria-label="Open Maletsunyane Falls photo">
+                <img
+                  src="maletsunyane falls.jpg"
+                  alt="Illustrated mountain scene of Maletsunyane Falls"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Maletsunyane Falls</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Heritage">
+              <button type="button" class="g-btn" aria-label="Open Thaba-Bosiu photo">
+                <img
+                  src="thaba-bosiu.webp"
+                  alt="Illustrated mountain scene of Thaba-Bosiu"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Thaba-Bosiu</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Adventure">
+              <button type="button" class="g-btn" aria-label="Open Sani Pass photo">
+                <img
+                  src="sani pass.jpg"
+                  alt="Illustrated mountain scene of Sani Pass"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Sani Pass</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Nature">
+              <button type="button" class="g-btn" aria-label="Open Katse Dam photo">
+                <img
+                  src="katse dam.jpg"
+                  alt="Illustrated mountain scene of Katse Dam"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Katse Dam</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Adventure">
+              <button type="button" class="g-btn" aria-label="Open Afriski Mountain Resort photo">
+                <img
+                  src="afriski.jpg"
+                  alt="Illustrated mountain scene of Afriski Mountain Resort"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Afriski Mountain Resort</figcaption>
+            </figure>
+            <figure class="g-item wide" data-cat="Nature">
+              <button
+                type="button"
+                class="g-btn"
+                aria-label="Open Ts'ehlanyane National Park photo"
+              >
+                <img
+                  src="tsehlanyane.jpg"
+                  alt="Illustrated mountain scene of Ts'ehlanyane National Park"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Ts'ehlanyane National Park</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Nature">
+              <button
+                type="button"
+                class="g-btn"
+                aria-label="Open Sehlabathebe National Park photo"
+              >
+                <img
+                  src="sehlabathebe.jpg"
+                  alt="Illustrated mountain scene of Sehlabathebe National Park"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Sehlabathebe National Park</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Nature">
+              <button type="button" class="g-btn" aria-label="Open Bokong Nature Reserve photo">
+                <img
+                  src="bokong nature reserve.jpg"
+                  alt="Illustrated mountain scene of Bokong Nature Reserve"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Bokong Nature Reserve</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Heritage">
+              <button type="button" class="g-btn" aria-label="Open Liphofung Cave photo">
+                <img
+                  src="liphofung caves.jpg"
+                  alt="Illustrated mountain scene of Liphofung Cave"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Liphofung Cave</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Culture">
+              <button type="button" class="g-btn" aria-label="Open Malealea photo">
+                <img
+                  src="malealea landscape.png"
+                  alt="Illustrated mountain scene of Malealea"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Malealea</figcaption>
+            </figure>
+            <figure class="g-item wide" data-cat="Culture">
+              <button
+                type="button"
+                class="g-btn"
+                aria-label="Open Morija Museum and Archives photo"
+              >
+                <img
+                  src="morija moseum and archives.jpg"
+                  alt="Illustrated mountain scene of Morija Museum and Archives"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Morija Museum and Archives</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Culture">
+              <button type="button" class="g-btn" aria-label="Open Ha Kome Cave Dwellings photo">
+                <img
+                  src="kome caves.webp"
+                  alt="Illustrated mountain scene of Ha Kome Cave Dwellings"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Ha Kome Cave Dwellings</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Heritage">
+              <button type="button" class="g-btn" aria-label="Open Ha Baroana Rock Art photo">
+                <img
+                  src="baroana rock art.jpg"
+                  alt="Illustrated mountain scene of Ha Baroana Rock Art"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Ha Baroana Rock Art</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Nature">
+              <button type="button" class="g-btn" aria-label="Open Qiloane Falls photo">
+                <img
+                  src="qiloane falls.jpg"
+                  alt="Illustrated mountain scene of Qiloane Falls"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Qiloane Falls</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Adventure">
+              <button type="button" class="g-btn" aria-label="Open Thabana Ntlenyana photo">
+                <img
+                  src="thabana ntlenyane.jpg"
+                  alt="Illustrated mountain scene of Thabana Ntlenyana"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Thabana Ntlenyana</figcaption>
+            </figure>
+            <figure class="g-item wide" data-cat="Culture">
+              <button
+                type="button"
+                class="g-btn"
+                aria-label="Open Maseru and the Basotho Hat photo"
+              >
+                <img
+                  src="maseru city.webp"
+                  alt="Illustrated mountain scene of Maseru and the Basotho Hat"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Maseru and the Basotho Hat</figcaption>
+            </figure>
+            <figure class="g-item" data-cat="Nature">
+              <button type="button" class="g-btn" aria-label="Open Mohale Dam photo">
+                <img
+                  src="Mohale-Dam.webp"
+                  alt="Illustrated mountain scene of Mohale Dam"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption>Mohale Dam</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <div
+        class="modal fade"
+        id="lightbox"
+        tabindex="-1"
+        aria-labelledby="lbTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+              <h2 class="modal-title h5 text-white" id="lbTitle"></h2>
+              <button
+                type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body text-center">
+              <img id="lbImg" class="img-fluid rounded" alt="" />
+            </div>
+            <div class="modal-footer border-0 justify-content-between">
+              <button id="lbPrev" class="btn btn-straw" type="button">Previous</button
+              ><span id="lbCount" aria-live="polite"></span
+              ><button id="lbNext" class="btn btn-straw" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="blanket"></div>
+      <div class="container py-5">
+        <div class="row g-4">
+          <div class="col-md-5">
+            <h2 class="h4 text-white">Visit Lesotho</h2>
+            <p>
+              The Kingdom in the Sky. Plan your trip to the only country in the world entirely above
+              1,000 m.
+            </p>
+          </div>
+          <div class="col-6 col-md-3">
+            <h3 class="h6 text-white">Pages</h3>
+            <ul class="list-unstyled">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="destinations.html">Destinations</a></li>
+              <li><a href="accommodation.html">Accommodation</a></li>
+              <li><a href="activities.html">Activities</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-4">
+            <h3 class="h6 text-white">Contact</h3>
+            <address class="mb-0">
+              Tourism Information Office<br />Kingsway Road, Maseru 100<br /><a>
+            </address>
+          </div>
+        </div>
+        <p class="small mt-4 mb-0">
+          &copy; <span id="year"></span> Visit Lesotho.</p>
+      </div>
+    </footer>
+    <button id="toTop" class="btn btn-straw" type="button" aria-label="Back to top" hidden>
+      Top
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      (() => {
+        const root = document.documentElement,
+          btn = document.getElementById("themeBtn");
+        const paint = (t) => {
+          root.setAttribute("data-bs-theme", t);
+          btn.textContent = t === "dark" ? "Light" : "Dark";
+          btn.setAttribute("aria-pressed", t === "dark");
+        };
+        paint(localStorage.getItem("lt-theme") || "light");
+        btn.addEventListener("click", () => {
+          const t = root.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+          localStorage.setItem("lt-theme", t);
+          paint(t);
+        });
+        document.getElementById("year").textContent = new Date().getFullYear();
+        document.querySelectorAll(".navbar .nav-link:not(.dropdown-toggle)").forEach((a) =>
+          a.addEventListener("click", () => {
+            const m = document.getElementById("menu");
+            if (m.classList.contains("show")) bootstrap.Collapse.getOrCreateInstance(m).hide();
+          }),
+        );
+        const top = document.getElementById("toTop");
+        addEventListener("scroll", () => (top.hidden = scrollY < 500));
+        top.onclick = () => scrollTo({ top: 0, behavior: "smooth" });
+        const u = localStorage.getItem("lt-user"),
+          b = document.getElementById("navUser");
+        if (u) {
+          b.textContent = "Hi, " + u;
+          b.classList.remove("d-none");
+        }
+      })();
+    </script>
+    <script>
+      const items = [...document.querySelectorAll(".g-item")],
+        $ = (s) => document.querySelector(s),
+        modal = new bootstrap.Modal($("#lightbox"));
+      let vis = items,
+        i = 0;
+      const show = (n) => {
+        i = (n + vis.length) % vis.length;
+        const im = vis[i].querySelector("img");
+        $("#lbImg").src = im.src;
+        $("#lbImg").alt = im.alt;
+        $("#lbTitle").textContent = vis[i].querySelector("figcaption").textContent;
+        $("#lbCount").textContent = `${i + 1} of ${vis.length}`;
+      };
+      items.forEach(
+        (f) =>
+          (f.querySelector("button").onclick = () => {
+            vis = items.filter((x) => !x.hidden);
+            i = vis.indexOf(f);
+            show(i);
+            modal.show();
+          }),
+      );
+      $("#lbPrev").onclick = () => show(i - 1);
+      $("#lbNext").onclick = () => show(i + 1);
+      addEventListener("keydown", (e) => {
+        if (!$("#lightbox").classList.contains("show")) return;
+        if (e.key === "ArrowLeft") show(i - 1);
+        if (e.key === "ArrowRight") show(i + 1);
+      });
+      $("#gFilter").addEventListener("click", (e) => {
+        const c = e.target.dataset.cat;
+        if (!c) return;
+        document.querySelectorAll("#gFilter button").forEach((b) => {
+          b.classList.toggle("active", b === e.target);
+          b.classList.toggle("btn-brand", b === e.target);
+          b.classList.toggle("btn-outline-secondary", b !== e.target);
+        });
+        items.forEach((f) => (f.hidden = c !== "All" && f.dataset.cat !== c));
+      });
+    </script>
+  </body>
+</html>
